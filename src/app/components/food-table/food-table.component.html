@@ -1,0 +1,73 @@
+<div class="food-table-container">
+  <h2>Tus macros objetivos:</h2>
+
+  @if(macrosAndFoodListResolverResponse() != null) {
+  <div class="macros-container">
+    <mat-card class="macro-card">
+      <mat-card-header>
+        <div mat-card-avatar class="macro-icon protein-icon"></div>
+        <mat-card-title>Proteínas</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          Tu objetivo: <span class="macro-value">{{ myProteinsGoal() }}g</span>
+        </p>
+        <p>
+          Tu dieta actual:
+          <span class="macro-value">{{ currentProteinIntake() }}g</span>
+        </p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="macro-card">
+      <mat-card-header>
+        <div mat-card-avatar class="macro-icon carbs-icon"></div>
+        <mat-card-title>Carbohidratos</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          Tu objetivo: <span class="macro-value">{{ myCarbsGoal() }}g</span>
+        </p>
+        <p>
+          Tu dieta actual:
+          <span class="macro-value">{{ currentCarbsIntake() }}g</span>
+        </p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="macro-card">
+      <mat-card-header>
+        <div mat-card-avatar class="macro-icon fat-icon"></div>
+        <mat-card-title>Grasas</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          Tu objetivo: <span class="macro-value">{{ myFatsGoal() }}g</span>
+        </p>
+        <p>
+          Tu dieta actual:
+          <span class="macro-value">{{ currentFatsIntake() }}g</span>
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  @if (foodDataSignal() != undefined) {
+    <h2>Alimentos que puedes agregar a tu dieta:</h2>
+    <app-shared-table
+      [isLoadinFoodgData]="dietService.isLoadingFoodData()()"
+      [element_data]="foodDataSignal()!"
+      (updateNameFiltered)="updateNameFiltered($event)"
+      (updateTable)="updateTable($event)"
+      (handleAddFood)="handleAddFoodItem($event)"
+    ></app-shared-table>
+  }
+}
+
+  @if(foodItemsList().length > 0) {
+    <h2>Tu lista de alimentos actual:</h2>
+    <div class="food-items-container">
+      @for (foodItem of foodItemsList(); track $index) {
+        <app-food-item [foodItem]="foodItem"></app-food-item>
+      }
+    </div>
+  }
+</div>

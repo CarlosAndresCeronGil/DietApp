@@ -1,0 +1,12 @@
+<mat-card class="food-item-card">
+    <mat-card-header>
+      <mat-card-title>{{ foodItem().name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Consumo diario:</mat-label>
+        <input matInput type="number" #inputAmountOfFood/>
+      </mat-form-field>
+      <strong>{{ foodItem().unit }}</strong>
+    </mat-card-content>
+</mat-card>

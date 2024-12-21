@@ -1,0 +1,73 @@
+<h2>
+    Empecemos por conocer tus datos básicos para calcular macronutrientes.
+</h2>
+<mat-card appearance="outlined">
+  <h3>Datos básicos</h3>
+  <form [formGroup]="userForm" (ngSubmit)="submitForm()" class="user-form">
+    <div class="form-grid">
+      <mat-form-field appearance="fill">
+        <mat-label>Género</mat-label>
+        <mat-select formControlName="gender">
+          <mat-option value="male">Masculino</mat-option>
+          <mat-option value="female">Femenino</mat-option>
+        </mat-select>
+        @if (userForm.get('gender')?.invalid) {
+        <mat-error>{{ errorText("gender") }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Peso (en kg)</mat-label>
+        <input matInput formControlName="weight" type="number" />
+        @if (userForm.get('weight')?.invalid) {
+        <mat-error>{{ errorText("weight") }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Altura (en centimetros)</mat-label>
+        <input matInput formControlName="height" type="number" />
+        @if (userForm.get('height')?.invalid) {
+        <mat-error>{{ errorText("height") }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Edad</mat-label>
+        <input matInput formControlName="age" type="number" />
+        @if (userForm.get('age')?.invalid) {
+        <mat-error>{{ errorText("age") }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Nivel de actividad</mat-label>
+        <mat-select formControlName="activity_level">
+          <mat-option value="sedentary">Sedentario</mat-option>
+          <mat-option value="light">Ligero</mat-option>
+          <mat-option value="moderate">Moderado</mat-option>
+          <mat-option value="active">Activo</mat-option>
+          <mat-option value="very_active">Muy activo</mat-option>
+        </mat-select>
+        @if (userForm.get('activity_level')?.invalid) {
+        <mat-error>{{ errorText("activity_level") }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Meta</mat-label>
+        <mat-select formControlName="goal">
+          <mat-option value="lose">Perder peso/definición muscular</mat-option>
+          <mat-option value="gain">Ganar volumen muscular</mat-option>
+          <mat-option value="maintenance">Mantener peso</mat-option>
+          <mat-option value="recomposition">Recomposición corporal</mat-option>
+        </mat-select>
+        @if (userForm.get('goal')?.invalid) {
+        <mat-error>{{ errorText("goal") }}</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <button mat-raised-button color="primary" type="submit">Calcula mis macros</button>
+  </form>
+</mat-card>

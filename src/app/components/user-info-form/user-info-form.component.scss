@@ -1,0 +1,27 @@
+.user-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  gap: 16px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  max-width: 600px;
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-card {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  padding: 16px;
+}

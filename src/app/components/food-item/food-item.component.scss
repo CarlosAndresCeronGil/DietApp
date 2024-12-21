@@ -1,0 +1,17 @@
+.food-item-card {
+    width: 300px;
+    max-width: 400px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+mat-card-title {
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+mat-form-field {
+    margin-right: 5px;
+}

@@ -1,0 +1,41 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+header {
+  flex-shrink: 0;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-grow: 1;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+
+  .left-side {
+    cursor: pointer;
+  }
+
+  h1 {
+    font-size: 1.3em;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+@media (min-width: 769px) {
+  .page-container {
+    height: 100%;
+  }
+}

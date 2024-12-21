@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-
 html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -18,25 +18,21 @@ body {
     opacity: 0;
   }
 }
-
 @keyframes fade-out {
   to {
     opacity: 0;
   }
 }
-
 @keyframes slide-from-right {
   from {
     transform: translateX(300px);
   }
 }
-
 @keyframes slide-to-left {
   to {
     transform: translateX(-300px);
   }
 }
-
 ::view-transition-old(transition-routing) {
   animation: 400ms both fade-out, 800ms slide-to-left;
 }
