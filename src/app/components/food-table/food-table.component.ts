@@ -9,11 +9,14 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ResolverMacrosAndFoodListResponse } from '../../models/resolvers.interface';
 import { FoodItem, FoodResponse } from '../../models/food-data.interface';
 import { FoodItemComponent } from '../food-item/food-item.component';
+import { JsonPipe } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-food-table',
   imports: [
     FoodItemComponent,
+    MatButtonModule,
     MatCardModule,
     MatGridListModule,
     SharedTableComponent
@@ -51,9 +54,6 @@ export class FoodTableComponent {
     this.currentFatsIntake = this.dietService.currentFatsIntake;
 
     this.foodDataSignal = toSignal<FoodResponse | undefined>(this.dietService.selectedFoodList$);
-    // this.dietService.selectedFoodList$.pipe(takeUntilDestroyed()).subscribe((data) => {
-    //   console.log(data);
-    // });
 
     this.foodItemsList = this.dietService.myFoodItemsList;
 
@@ -68,8 +68,15 @@ export class FoodTableComponent {
   }
 
   handleAddFoodItem(item: FoodItem) {
-    console.log(item);
     this.dietService.addItemToFoodItemList(item);
+  }
+
+  printPdf() {
+    this.dietService.printToPdf()
+      .subscribe((blob: Blob) => {
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+      })
   }
 
 }

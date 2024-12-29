@@ -10,11 +10,11 @@
       </mat-card-header>
       <mat-card-content>
         <p>
-          Tu objetivo: <span class="macro-value">{{ myProteinsGoal() }}g</span>
+          Tu objetivo: <span class="macro-value">{{ myProteinsGoal() }}</span>g
         </p>
         <p>
           Tu dieta actual:
-          <span class="macro-value">{{ currentProteinIntake() }}g</span>
+          <span class="macro-value" [style.color]="dietService.proteinColor()">{{ currentProteinIntake() }}</span>g
         </p>
       </mat-card-content>
     </mat-card>
@@ -25,11 +25,11 @@
       </mat-card-header>
       <mat-card-content>
         <p>
-          Tu objetivo: <span class="macro-value">{{ myCarbsGoal() }}g</span>
+          Tu objetivo: <span class="macro-value">{{ myCarbsGoal() }}</span>g
         </p>
         <p>
           Tu dieta actual:
-          <span class="macro-value">{{ currentCarbsIntake() }}g</span>
+          <span class="macro-value" [style.color]="dietService.carbsColor()">{{ currentCarbsIntake() }}</span>g
         </p>
       </mat-card-content>
     </mat-card>
@@ -40,11 +40,11 @@
       </mat-card-header>
       <mat-card-content>
         <p>
-          Tu objetivo: <span class="macro-value">{{ myFatsGoal() }}g</span>
+          Tu objetivo: <span class="macro-value">{{ myFatsGoal() }}</span>g
         </p>
         <p>
           Tu dieta actual:
-          <span class="macro-value">{{ currentFatsIntake() }}g</span>
+          <span class="macro-value" [style.color]="dietService.fatsColor()">{{ currentFatsIntake() }}</span>g
         </p>
       </mat-card-content>
     </mat-card>
@@ -55,6 +55,7 @@
     <app-shared-table
       [isLoadinFoodgData]="dietService.isLoadingFoodData()()"
       [element_data]="foodDataSignal()!"
+      [foodItemsList]="foodItemsList()"
       (updateNameFiltered)="updateNameFiltered($event)"
       (updateTable)="updateTable($event)"
       (handleAddFood)="handleAddFoodItem($event)"
@@ -65,9 +66,18 @@
   @if(foodItemsList().length > 0) {
     <h2>Tu lista de alimentos actual:</h2>
     <div class="food-items-container">
-      @for (foodItem of foodItemsList(); track $index) {
+      @for (foodItem of foodItemsList(); track foodItem.id) {
         <app-food-item [foodItem]="foodItem"></app-food-item>
       }
+    </div>
+  }
+
+  @if(dietService.proteinColor() == "green"
+  && dietService.carbsColor() == "green"
+  && dietService.fatsColor() == "green") {
+    <div class="success-message">
+      <p>¡Felicidades! Has alcanzado tus objetivos de macronutrientes.</p>
+      <button mat-stroked-button color="primary" (click)="printPdf()">Imprimir mis datos a PDF</button>
     </div>
   }
 </div>

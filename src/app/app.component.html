@@ -4,6 +4,9 @@
       <div (click)="handleMainTitleClicked()" class="left-side">
         <h1>{{ title }}</h1>
       </div>
+      <div (click)="handleMainTitleClicked()" class="righ-side">
+          <mat-icon aria-hidden="false" aria-label="Home icon" fontIcon="home"></mat-icon>
+      </div>
     </mat-toolbar>
   </header>
   @if (loaderService.generalLoader()) {

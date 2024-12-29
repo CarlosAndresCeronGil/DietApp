@@ -25,12 +25,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class SharedTableComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild(MatPaginator, { read: true }) paginator!: MatPaginator;
   readonly inputSearchBox = viewChild.required<ElementRef>('inputSearchBox');
+  element_data = input.required<FoodResponse>();
+  foodItemsList = input.required<FoodItem[]>();
   isLoadinFoodgData = input.required<boolean>();
   @Output() updateNameFiltered = new EventEmitter<any>();
   @Output() updateTable = new EventEmitter<any>();
   @Output() handleAddFood = new EventEmitter<FoodItem>();
 
-  element_data = input.required<FoodResponse>();
   displayedColumns: string[] = ['name', 'protein', 'carbs', 'fat', 'quantity', 'unit', 'action'];
   dataSource!: MatTableDataSource<FoodItem, MatPaginator>;
 
@@ -45,7 +46,6 @@ export class SharedTableComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['element_data']) {
-      console.log('this.element_data().data.pagination.total: ', this.element_data().data.pagination.total);
       this.dataSource = new MatTableDataSource<FoodItem>(this.element_data().data.items);
     }
   }
@@ -79,6 +79,10 @@ export class SharedTableComponent implements OnInit, AfterViewInit, OnChanges {
 
   handleAddFoodItem(item: FoodItem) {
     this.handleAddFood.emit(item);
+  }
+
+  isItemAdded(item: FoodItem): boolean {
+    return this.foodItemsList().some((foodItem) => foodItem.id === item.id);
   }
 
 }

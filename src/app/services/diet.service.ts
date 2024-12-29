@@ -5,15 +5,17 @@ import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
 import { CalculateDietResponse } from '../models/calculate-diet.interface';
 import { FoodItem, FoodResponse } from '../models/food-data.interface';
 import { LoaderService } from './loader.service';
+import Swal from 'sweetalert2';
+import { GoalsInfo, ToPdf } from '../models/to-pdf.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DietService {
-  PERMISSIBLE_INTAKE_VALUE = 50;
+  PERMISSIBLE_INTAKE_VALUE = 20;
 
   myFoodItemsList = signal<FoodItem[]>([]);
-  myFoodItemListWithValues = signal<any[]>([]);
+  myFoodItemListWithValues = signal<FoodItem[]>([]);
 
   currentProteinIntake = signal<number>(0);
   currentCarbsIntake = signal<number>(0);
@@ -23,29 +25,34 @@ export class DietService {
   myeCarbsGoal = signal<number>(0);
   myFatsGoal = signal<number>(0);
 
+  goalsInfo = signal<GoalsInfo|undefined>(undefined);
+
   proteinColor = computed(() => {
     if (
-      this.currentProteinIntake() - this.myProteinsGoal() < this.PERMISSIBLE_INTAKE_VALUE ||
-      this.myProteinsGoal() - this.currentProteinIntake() < this.PERMISSIBLE_INTAKE_VALUE
+      Math.abs(this.currentProteinIntake() - this.myProteinsGoal()) < this.PERMISSIBLE_INTAKE_VALUE &&
+      this.currentProteinIntake() !== 0
     ) {
+      this.showSuccessIntakeMessage('proteinas');
       return 'green';
     }
     return 'red';
   });
   carbsColor = computed(() => {
     if (
-      this.currentCarbsIntake() - this.myeCarbsGoal() < this.PERMISSIBLE_INTAKE_VALUE ||
-      this.myeCarbsGoal() - this.currentCarbsIntake() < this.PERMISSIBLE_INTAKE_VALUE
+      Math.abs(this.currentCarbsIntake() - this.myeCarbsGoal()) < this.PERMISSIBLE_INTAKE_VALUE &&
+      this.currentCarbsIntake() !== 0
     ) {
+      this.showSuccessIntakeMessage('carbohidratos');
       return 'green';
     }
     return 'red';
   });
   fatsColor = computed(() => {
     if (
-      this.currentFatsIntake() - this.myFatsGoal() < this.PERMISSIBLE_INTAKE_VALUE ||
-      this.myFatsGoal() - this.currentFatsIntake() < this.PERMISSIBLE_INTAKE_VALUE
+      Math.abs(this.currentFatsIntake() - this.myFatsGoal()) < this.PERMISSIBLE_INTAKE_VALUE &&
+      this.currentFatsIntake() !== 0
     ) {
+      this.showSuccessIntakeMessage('grasas');
       return 'green';
     }
     return 'red';
@@ -72,6 +79,26 @@ export class DietService {
   (private _http: HttpClient,
   private _loaderService: LoaderService,
   ) {
+  }
+
+  updateGoalsInfo(data: GoalsInfo) {
+    this.goalsInfo.set(data);
+  }
+
+  showSuccessIntakeMessage(name: string) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Great!',
+      text: `Haz comletado tu consumo de ${name}`,
+      position: 'bottom-start',
+      toast: true,
+      showConfirmButton: false,
+      timer: 3500,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.style.marginBottom = '10px'; // Add margin to stack notifications
+      }
+    });
   }
 
   calculateDiet(data: any): Observable<CalculateDietResponse> {
@@ -102,33 +129,84 @@ export class DietService {
     this.myFoodItemsList.set([...this.myFoodItemsList(), item]);
   }
 
-  addMacrosToCurrentIntake(ammount: number, foodName: string, protein: number, carbs: number, fat: number, unit: string) {
-    const unitToBeDivided = unit === 'gr' ? 100 : 1;
-    const existFoodInListWithValues = this.myFoodItemListWithValues().find((item) => item.name === foodName);
+  addMacrosToCurrentIntake(ammount: number, foodItem: FoodItem) {
+    const unitToBeDivided = foodItem.unit === 'gr' ? 100 : 1;
+    const existFoodInListWithValues = this.myFoodItemListWithValues().find((item) => item.id === foodItem.id);
 
-    let calculatedProtein = Math.floor((protein / unitToBeDivided) * ammount);;
-    let calculatedCarbs = Math.floor((carbs / unitToBeDivided) * ammount);
-    let calculatedFats = Math.floor((fat / unitToBeDivided) * ammount);
+    let calculatedProtein = Math.floor((+foodItem.protein / unitToBeDivided) * ammount);;
+    let calculatedCarbs = Math.floor((+foodItem.carbs / unitToBeDivided) * ammount);
+    let calculatedFats = Math.floor((+foodItem.fat / unitToBeDivided) * ammount);
+
+    const updatedFoodItem = {
+      ...foodItem,
+      quantity: ammount.toString(),
+      protein: calculatedProtein.toString(),
+      carbs: calculatedCarbs.toString(),
+      fat: calculatedFats.toString()
+    };
 
     if(existFoodInListWithValues == undefined) {
       this.myFoodItemListWithValues
       .set([
         ...this.myFoodItemListWithValues(),
-        { name: foodName, protein: calculatedProtein, carbs: calculatedCarbs, fat: calculatedFats }
+        updatedFoodItem
       ]);
     } else {
-      const indexOfEditedFood = this.myFoodItemListWithValues().findIndex((item) => item.name === foodName);
+      const indexOfEditedFood = this.myFoodItemListWithValues().findIndex((item) => item.id === foodItem.id);
       this.myFoodItemListWithValues.set([
         ...this.myFoodItemListWithValues().slice(0, indexOfEditedFood),
-        { name: foodName, protein: calculatedProtein, carbs: calculatedCarbs, fat: calculatedFats },
+        updatedFoodItem,
         ...this.myFoodItemListWithValues().slice(indexOfEditedFood + 1)
       ])
     }
-    const totalProteinIntake = this.myFoodItemListWithValues().reduce((acc, item) => acc + item.protein, 0);
-    const totalCarbsIntake = this.myFoodItemListWithValues().reduce((acc, item) => acc + item.carbs, 0);
-    const totalFatsIntake = this.myFoodItemListWithValues().reduce((acc, item) => acc + item.fat, 0);
+    const totalProteinIntake = this.myFoodItemListWithValues().reduce((acc, item) => acc + +item.protein, 0);
+    const totalCarbsIntake = this.myFoodItemListWithValues().reduce((acc, item) => acc + +item.carbs, 0);
+    const totalFatsIntake = this.myFoodItemListWithValues().reduce((acc, item) => acc + +item.fat, 0);
     this.currentProteinIntake.set(totalProteinIntake);
     this.currentCarbsIntake.set(totalCarbsIntake);
     this.currentFatsIntake.set(totalFatsIntake);
+  }
+
+  deleteFoodItem(foodItem: FoodItem) {
+    const indexOfDeletedFood = this.myFoodItemsList().findIndex((item) => item.id === foodItem.id);
+    this.myFoodItemsList.set([
+      ...this.myFoodItemsList().slice(0, indexOfDeletedFood),
+      ...this.myFoodItemsList().slice(indexOfDeletedFood + 1)
+    ]);
+    const existInFoodListWithValues = this.myFoodItemListWithValues().find((item) => item.id === foodItem.id);
+    if(existInFoodListWithValues) {
+      const indexOfDeletedFoodWithValues = this.myFoodItemListWithValues().findIndex((item) => item.id === foodItem.id);
+      const totalProteinIntake = this.currentProteinIntake() - +this.myFoodItemListWithValues()[indexOfDeletedFoodWithValues].protein;
+      const totalCarbsIntake = this.currentCarbsIntake() - +this.myFoodItemListWithValues()[indexOfDeletedFoodWithValues].carbs;
+      const totalFatsIntake = this.currentFatsIntake() - +this.myFoodItemListWithValues()[indexOfDeletedFoodWithValues].fat;
+
+      this.myFoodItemListWithValues.set([
+        ...this.myFoodItemListWithValues().slice(0, indexOfDeletedFoodWithValues),
+        ...this.myFoodItemListWithValues().slice(indexOfDeletedFoodWithValues + 1)
+      ]);
+
+      this.currentProteinIntake.set(totalProteinIntake);
+      this.currentCarbsIntake.set(totalCarbsIntake);
+      this.currentFatsIntake.set(totalFatsIntake);
+    }
+  }
+
+  cleanLists() {
+    this.myFoodItemsList.set([]);
+    this.myFoodItemListWithValues.set([]);
+    this.currentProteinIntake.set(0);
+    this.currentCarbsIntake.set(0);
+    this.currentFatsIntake.set(0);
+  }
+
+  printToPdf(): Observable<Blob> {
+    const data: ToPdf = {
+      foods: this.myFoodItemListWithValues(),
+      goal: this.goalsInfo()!.goal,
+      weight: this.goalsInfo()!.weight,
+      activity_level: this.goalsInfo()!.activity_level,
+      age: this.goalsInfo()!.age
+    };
+    return this._http.post(environment.api_url + '/generate-pdf', data, {responseType: 'blob'});
   }
 }

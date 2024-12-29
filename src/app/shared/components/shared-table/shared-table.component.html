@@ -37,7 +37,7 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef>Acción</th>
       <td mat-cell *matCellDef="let element">
-        <button (click)="handleAddFoodItem(element)" mat-button>Agregar a dieta</button>
+        <button [disabled]="isItemAdded(element)" (click)="handleAddFoodItem(element)" mat-button>Agregar a dieta</button>
       </td>
     </ng-container>
 

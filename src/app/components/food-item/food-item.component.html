@@ -8,5 +8,8 @@
         <input matInput type="number" #inputAmountOfFood/>
       </mat-form-field>
       <strong>{{ foodItem().unit }}</strong>
+      <button (click)="handleDeleteFooItem(foodItem())" mat-fab aria-label="Icon button with a delete icon">
+        <mat-icon>delete</mat-icon>
+      </button>
     </mat-card-content>
 </mat-card>

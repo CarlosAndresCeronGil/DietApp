@@ -5,10 +5,16 @@ import { LoaderService } from './services/loader.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { filter, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatProgressBarModule, MatToolbarModule],
+  imports: [
+    RouterOutlet,
+    MatIconModule,
+    MatProgressBarModule,
+    MatToolbarModule
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

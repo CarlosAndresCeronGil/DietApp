@@ -12,6 +12,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { errorText, ErrorTextFunction } from '../../shared/utils/form-utils';
 import { Router } from '@angular/router';
+import { DietService } from '../../services/diet.service';
+import { GoalsInfo } from '../../models/to-pdf.interface';
 
 @Component({
   selector: 'app-user-info-form',
@@ -33,6 +35,7 @@ export class UserInfoFormComponent {
   constructor(
     private _builder: FormBuilder,
     private _router: Router,
+    private _dietService: DietService
   ) {
     this.userForm = this._builder.group({
       gender: ['male', Validators.required],
@@ -51,5 +54,12 @@ export class UserInfoFormComponent {
       return;
     }
     this._router.navigate(['food-table'], { queryParams: this.userForm.value });
+    const goalsInfo: GoalsInfo = {
+      goal: this.userForm.value.goal,
+      weight: this.userForm.value.weight,
+      activity_level: this.userForm.value.activity_level,
+      age: this.userForm.value.age
+    };
+    this._dietService.updateGoalsInfo(goalsInfo);
   }
 }
