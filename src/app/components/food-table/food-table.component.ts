@@ -11,6 +11,7 @@ import { FoodItem, FoodResponse } from '../../models/food-data.interface';
 import { FoodItemComponent } from '../food-item/food-item.component';
 import { JsonPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { ToPdfResponse } from '../../models/to-pdf.interface';
 
 @Component({
   selector: 'app-food-table',
@@ -73,9 +74,12 @@ export class FoodTableComponent {
 
   printPdf() {
     this.dietService.printToPdf()
-      .subscribe((blob: Blob) => {
-        const url = window.URL.createObjectURL(blob);
-        window.open(url);
+      .subscribe((response: ToPdfResponse) => {
+        if (response.status === 'success' && response.data.url) {
+          window.open(response.data.url, '_blank');
+        } else {
+          console.error('Error generating PDF:', response.message);
+        }
       })
   }
 

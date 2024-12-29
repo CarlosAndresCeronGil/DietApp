@@ -6,7 +6,7 @@ import { CalculateDietResponse } from '../models/calculate-diet.interface';
 import { FoodItem, FoodResponse } from '../models/food-data.interface';
 import { LoaderService } from './loader.service';
 import Swal from 'sweetalert2';
-import { GoalsInfo, ToPdf } from '../models/to-pdf.interface';
+import { GoalsInfo, ToPdf, ToPdfResponse } from '../models/to-pdf.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -199,7 +199,7 @@ export class DietService {
     this.currentFatsIntake.set(0);
   }
 
-  printToPdf(): Observable<Blob> {
+  printToPdf(): Observable<ToPdfResponse> {
     const data: ToPdf = {
       foods: this.myFoodItemListWithValues(),
       goal: this.goalsInfo()!.goal,
@@ -207,6 +207,6 @@ export class DietService {
       activity_level: this.goalsInfo()!.activity_level,
       age: this.goalsInfo()!.age
     };
-    return this._http.post(environment.api_url + '/generate-pdf', data, {responseType: 'blob'});
+    return this._http.post<ToPdfResponse>(environment.api_url + '/generate-pdf', data);
   }
 }

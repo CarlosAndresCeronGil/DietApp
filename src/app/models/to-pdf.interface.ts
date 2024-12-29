@@ -10,3 +10,11 @@ export interface GoalsInfo {
 export interface ToPdf extends GoalsInfo {
     foods: FoodItem[];
 }
+
+export interface ToPdfResponse {
+    status: string;
+    message: string;
+    data: {
+        url: string;
+    }
+}
