@@ -88,7 +88,7 @@ export class DietService {
   showSuccessIntakeMessage(name: string) {
     Swal.fire({
       icon: 'success',
-      title: 'Great!',
+      title: 'Genial!',
       text: `Haz comletado tu consumo de ${name}`,
       position: 'bottom-start',
       toast: true,
