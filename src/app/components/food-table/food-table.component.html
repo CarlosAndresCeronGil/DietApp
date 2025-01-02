@@ -1,4 +1,31 @@
 <div class="food-table-container">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title class="centered-title">Guía de uso</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="guide-content">
+        <h4>Pasos para Configurar Tu Dieta</h4>
+        <div class="step">
+          <h5>Paso 1:</h5>
+          <p>Selecciona los alimentos que deseas incluir en tu dieta. Estos serán consumidos diariamente.</p>
+        </div>
+        <div class="step">
+          <h5>Paso 2:</h5>
+          <p>Una vez seleccionados, añade la cantidad deseada para cada alimento. Las cantidades pueden ser en gramos, ml, scoops o unidades.</p>
+        </div>
+        <div class="step">
+          <h5>Paso 3:</h5>
+          <p>Ajusta las cantidades de los alimentos para que “Tu dieta actual” se acerque a “Tu objetivo” en la sección de Tus Macro Objetivos.</p>
+          <ul>
+            <li>Por ejemplo, si tu objetivo de proteínas es 140gr, añade alimentos ricos en proteína como huevos o pollo.</li>
+            <li>No es obligatorio alcanzar exactamente 140gr, pero intenta acercarte, por ejemplo, 130gr o 150gr.</li>
+            <li>El sistema te indicará con colores si el valor está muy lejos (<span style="color: red;">rojo</span>) o cerca (<span style="color: green;">verde</span>) del objetivo.</li>
+          </ul>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
   <h2>Tus macros objetivos:</h2>
 
   @if(macrosAndFoodListResolverResponse() != null) {
@@ -48,6 +75,9 @@
         </p>
       </mat-card-content>
     </mat-card>
+  </div>
+  <div style="display: flex; justify-content: center;">
+    <p style="max-width: 700px; font-weight: 300; font-size: 14px;">El documento de tu dieta se podrá generar una vez logres suplir tus 3 macro objetivos, guíate de los colores en “tu dieta actual”, lo ideal es que los tres estén verdes, ¡ánimo!</p>
   </div>
 
   @if (foodDataSignal() != undefined) {

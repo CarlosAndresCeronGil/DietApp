@@ -9,9 +9,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ResolverMacrosAndFoodListResponse } from '../../models/resolvers.interface';
 import { FoodItem, FoodResponse } from '../../models/food-data.interface';
 import { FoodItemComponent } from '../food-item/food-item.component';
-import { JsonPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { ToPdfResponse } from '../../models/to-pdf.interface';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-food-table',
@@ -19,6 +19,7 @@ import { ToPdfResponse } from '../../models/to-pdf.interface';
     FoodItemComponent,
     MatButtonModule,
     MatCardModule,
+    MatExpansionModule,
     MatGridListModule,
     SharedTableComponent
   ],

@@ -9,6 +9,39 @@
   margin-top: 20px;
 }
 
+.centered-title {
+  display: flex;
+  justify-content: center;
+}
+
+.guide-content {
+  font-size: 14px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.guide-content h4 {
+  margin-bottom: 16px;
+}
+
+.step {
+  margin-bottom: 16px;
+}
+
+.step h5 {
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.step p {
+  margin: 4px 0;
+}
+
+.step ul {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
 .macro-card {
   width: 250px;
   max-width: 300px;

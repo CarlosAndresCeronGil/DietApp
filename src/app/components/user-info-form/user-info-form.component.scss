@@ -15,6 +15,28 @@
   width: 100%;
 }
 
+.help-content {
+  padding: 16px;
+  font-size: 14px;
+}
+
+.help-content h4 {
+  margin-bottom: 16px;
+}
+
+.activity-level {
+  margin-bottom: 16px;
+}
+
+.activity-level h5 {
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.activity-level p {
+  margin: 4px 0;
+}
+
 mat-form-field {
   width: 100%;
 }
@@ -24,4 +46,14 @@ mat-card {
   max-width: 600px;
   margin: auto;
   padding: 16px;
+}
+
+@media (max-width: 600px) {
+  .help-content {
+    font-size: 12px;
+  }
+
+  .activity-level h5 {
+    font-size: 14px;
+  }
 }

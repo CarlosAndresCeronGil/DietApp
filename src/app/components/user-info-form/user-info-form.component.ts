@@ -14,12 +14,14 @@ import { errorText, ErrorTextFunction } from '../../shared/utils/form-utils';
 import { Router } from '@angular/router';
 import { DietService } from '../../services/diet.service';
 import { GoalsInfo } from '../../models/to-pdf.interface';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @Component({
   selector: 'app-user-info-form',
   imports: [
     MatFormFieldModule,
     MatCardModule,
+    MatExpansionModule,
     MatInputModule,
     MatSelectModule,
     MatButtonModule,

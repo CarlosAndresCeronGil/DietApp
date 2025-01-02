@@ -3,6 +3,41 @@
 </h2>
 <mat-card appearance="outlined">
   <h3>Datos básicos</h3>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>¿Necesitas ayuda para seleccionar tu meta?</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="help-content">
+        <h4>Frecuencia de Entrenamiento por Nivel de Actividad</h4>
+        <div class="activity-level">
+          <h5>Sedentario:</h5>
+          <p>Poco o ningún ejercicio físico. Actividades diarias mínimas, como trabajar sentado en una oficina o tareas domésticas básicas.</p>
+          <p><strong>Frecuencia:</strong> 0-1 días a la semana de ejercicio.</p>
+        </div>
+        <div class="activity-level">
+          <h5>Ligero:</h5>
+          <p>Actividad física ligera. Puede incluir caminatas ocasionales, yoga ligero, ejercicio con pesas y actividades recreativas esporádicas.</p>
+          <p><strong>Frecuencia:</strong> 1-3 días a la semana de ejercicio leve.</p>
+        </div>
+        <div class="activity-level">
+          <h5>Moderado:</h5>
+          <p>Actividad física moderada. Incluye ejercicios regulares como correr, nadar o entrenamientos en el gimnasio de intensidad media.</p>
+          <p><strong>Frecuencia:</strong> 3-5 días a la semana.</p>
+        </div>
+        <div class="activity-level">
+          <h5>Activo:</h5>
+          <p>Nivel de actividad física alto. Entrenamientos regulares y de intensidad alta, como levantamiento de pesas, deportes competitivos o actividades físicas extenuantes.</p>
+          <p><strong>Frecuencia:</strong> 5-6 días a la semana.</p>
+        </div>
+        <div class="activity-level">
+          <h5>Muy Activo:</h5>
+          <p>Actividad física muy intensa, como entrenamientos dobles al día, trabajo físico muy exigente o entrenamiento para competencias deportivas.</p>
+          <p><strong>Frecuencia:</strong> 6-7 días a la semana o más (entrenamiento avanzado).</p>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
   <form [formGroup]="userForm" (ngSubmit)="submitForm()" class="user-form">
     <div class="form-grid">
       <mat-form-field appearance="fill">
