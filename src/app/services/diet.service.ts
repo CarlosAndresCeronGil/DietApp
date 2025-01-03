@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environments';
 import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
-import { CalculateDietResponse } from '../models/calculate-diet.interface';
+import { CalculateDietResponse, WeightChange } from '../models/calculate-diet.interface';
 import { FoodItem, FoodResponse } from '../models/food-data.interface';
 import { LoaderService } from './loader.service';
 import Swal from 'sweetalert2';
@@ -26,6 +26,7 @@ export class DietService {
   myFatsGoal = signal<number>(0);
 
   goalsInfo = signal<GoalsInfo|undefined>(undefined);
+  weightChangeInfo = signal<WeightChange|undefined>(undefined);
 
   proteinColor = computed(() => {
     if (
@@ -96,6 +97,9 @@ export class DietService {
       timerProgressBar: true,
       didOpen: (toast) => {
         toast.style.marginBottom = '10px';
+        toast.addEventListener('click', () => {
+          Swal.close();
+        });
       }
     });
   }
@@ -110,6 +114,7 @@ export class DietService {
         this.myProteinsGoal.set(data.data.macros.protein);
         this.myeCarbsGoal.set(data.data.macros.carbs);
         this.myFatsGoal.set(data.data.macros.fat);
+        this.weightChangeInfo.set(data.data.weight_change);
       })
     );
   }
@@ -204,7 +209,9 @@ export class DietService {
       goal: this.goalsInfo()!.goal,
       weight: this.goalsInfo()!.weight,
       activity_level: this.goalsInfo()!.activity_level,
-      age: this.goalsInfo()!.age
+      age: this.goalsInfo()!.age,
+      monthly_change_kg: this.weightChangeInfo()!.monthly_change_kg,
+      weekly_change_kg: this.weightChangeInfo()!.weekly_change_kg
     };
     return this._http.post<ToPdfResponse>(environment.api_url + '/generate-pdf', data);
   }
