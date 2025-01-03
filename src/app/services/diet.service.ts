@@ -75,11 +75,10 @@ export class DietService {
     })
   );
 
-  constructor
-  (private _http: HttpClient,
-  private _loaderService: LoaderService,
-  ) {
-  }
+  constructor(
+    private _http: HttpClient,
+    private _loaderService: LoaderService,
+  ) {}
 
   updateGoalsInfo(data: GoalsInfo) {
     this.goalsInfo.set(data);
@@ -96,7 +95,7 @@ export class DietService {
       timer: 3500,
       timerProgressBar: true,
       didOpen: (toast) => {
-        toast.style.marginBottom = '10px'; // Add margin to stack notifications
+        toast.style.marginBottom = '10px';
       }
     });
   }
@@ -108,9 +107,9 @@ export class DietService {
     )
     .pipe(
       tap((data) => {
-        this.myProteinsGoal.set(data.data.protein);
-        this.myeCarbsGoal.set(data.data.carbs);
-        this.myFatsGoal.set(data.data.fat);
+        this.myProteinsGoal.set(data.data.macros.protein);
+        this.myeCarbsGoal.set(data.data.macros.carbs);
+        this.myFatsGoal.set(data.data.macros.fat);
       })
     );
   }
