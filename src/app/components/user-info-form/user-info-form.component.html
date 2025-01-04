@@ -3,10 +3,16 @@
 </h2>
 <mat-card appearance="outlined">
   <h3>Datos básicos</h3>
+  <div class="video-button-container">
+    <button mat-button color="primary" (click)="openVideo()">
+      <mat-icon>play_circle_filled</mat-icon>
+      Video explicativo
+    </button>
+  </div>
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
-        <mat-panel-title>¿Necesitas ayuda para seleccionar tu meta?</mat-panel-title>
+        <mat-panel-title>¿Necesitas ayuda para seleccionar tu nivel de actividad?</mat-panel-title>
       </mat-expansion-panel-header>
       <div class="help-content">
         <h4>Frecuencia de Entrenamiento por Nivel de Actividad</h4>

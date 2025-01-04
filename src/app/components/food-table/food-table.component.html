@@ -26,8 +26,12 @@
       </div>
     </mat-expansion-panel>
   </mat-accordion>
+  <button mat-button style="margin-top: 10px;" color="primary" (click)="openVideo()">
+    <mat-icon>play_circle_filled</mat-icon>
+    Video explicativo
+  </button>
   <h2>Tus macros objetivos:</h2>
-
+  <p>Suplir esta dieta te dará aproximadamente: <strong>{{ myCaloriesGoal() }}</strong> calorías diarias</p>
   @if(macrosAndFoodListResolverResponse() != null) {
   <div class="macros-container">
     <mat-card class="macro-card">

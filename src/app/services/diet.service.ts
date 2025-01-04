@@ -24,6 +24,7 @@ export class DietService {
   myProteinsGoal = signal<number>(0);
   myeCarbsGoal = signal<number>(0);
   myFatsGoal = signal<number>(0);
+  myCaloriesGoal = signal<number>(0);
 
   goalsInfo = signal<GoalsInfo|undefined>(undefined);
   weightChangeInfo = signal<WeightChange|undefined>(undefined);
@@ -114,6 +115,7 @@ export class DietService {
         this.myProteinsGoal.set(data.data.macros.protein);
         this.myeCarbsGoal.set(data.data.macros.carbs);
         this.myFatsGoal.set(data.data.macros.fat);
+        this.myCaloriesGoal.set(data.data.macros.calories);
         this.weightChangeInfo.set(data.data.weight_change);
       })
     );
@@ -207,6 +209,7 @@ export class DietService {
     const data: ToPdf = {
       foods: this.myFoodItemListWithValues(),
       goal: this.goalsInfo()!.goal,
+      goal_calories: this.myCaloriesGoal(),
       weight: this.goalsInfo()!.weight,
       activity_level: this.goalsInfo()!.activity_level,
       age: this.goalsInfo()!.age,

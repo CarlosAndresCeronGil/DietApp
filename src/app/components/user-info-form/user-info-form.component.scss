@@ -15,6 +15,16 @@
   width: 100%;
 }
 
+.video-button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.video-button-container button {
+  width: auto;
+}
+
 .help-content {
   padding: 16px;
   font-size: 14px;
@@ -49,6 +59,10 @@ mat-card {
 }
 
 @media (max-width: 600px) {
+  mat-panel-title {
+    font-size: 14px;
+  }
+
   .help-content {
     font-size: 12px;
   }

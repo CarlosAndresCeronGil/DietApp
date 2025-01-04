@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -14,7 +14,11 @@ import { errorText, ErrorTextFunction } from '../../shared/utils/form-utils';
 import { Router } from '@angular/router';
 import { DietService } from '../../services/diet.service';
 import { GoalsInfo } from '../../models/to-pdf.interface';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDialog } from '@angular/material/dialog';
+import { YoutubeModalComponent } from '../youtube-modal/youtube-modal.component';
+import { environment } from '../../../environments/environments';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-user-info-form',
@@ -23,6 +27,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatCardModule,
     MatExpansionModule,
     MatInputModule,
+    MatIconModule,
     MatSelectModule,
     MatButtonModule,
     ReactiveFormsModule,
@@ -37,17 +42,27 @@ export class UserInfoFormComponent {
   constructor(
     private _builder: FormBuilder,
     private _router: Router,
-    private _dietService: DietService
+    private _dietService: DietService,
+    private _dialog: MatDialog
   ) {
     this.userForm = this._builder.group({
-      gender: ['male', Validators.required],
-      weight: ['66', [Validators.required, Validators.min(1)]],
-      height: ['172', [Validators.required, Validators.min(1)]],
-      age: ['26', [Validators.required, Validators.min(1)]],
-      activity_level: ['active', Validators.required],
-      goal: ['gain', Validators.required],
+      gender: ['', Validators.required],
+      weight: ['', [Validators.required, Validators.min(1)]],
+      height: ['', [Validators.required, Validators.min(1)]],
+      age: ['', [Validators.required, Validators.min(1)]],
+      activity_level: ['', Validators.required],
+      goal: ['', Validators.required],
     });
     this.errorText = errorText(this.userForm);
+  }
+
+  openVideo() {
+    this._dialog.open(YoutubeModalComponent, {
+      data: {
+        videoId: environment.youtube_form_video_id
+      },
+      enterAnimationDuration: 200,
+    });
   }
 
   submitForm() {

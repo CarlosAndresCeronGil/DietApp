@@ -9,6 +9,7 @@ export interface GoalsInfo {
 
 export interface ToPdf extends GoalsInfo {
     foods: FoodItem[];
+    goal_calories: number;
     monthly_change_kg: number;
     weekly_change_kg: number;
 }

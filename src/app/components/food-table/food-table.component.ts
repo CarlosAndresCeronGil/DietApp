@@ -12,6 +12,10 @@ import { FoodItemComponent } from '../food-item/food-item.component';
 import { MatButtonModule } from '@angular/material/button';
 import { ToPdfResponse } from '../../models/to-pdf.interface';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { environment } from '../../../environments/environments';
+import { YoutubeModalComponent } from '../youtube-modal/youtube-modal.component';
 
 @Component({
   selector: 'app-food-table',
@@ -19,6 +23,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     FoodItemComponent,
     MatButtonModule,
     MatCardModule,
+    MatIconModule,
     MatExpansionModule,
     MatGridListModule,
     SharedTableComponent
@@ -33,6 +38,7 @@ export class FoodTableComponent {
   myProteinsGoal: Signal<number>;
   myCarbsGoal: Signal<number>;
   myFatsGoal: Signal<number>;
+  myCaloriesGoal: Signal<number>;
 
   currentProteinIntake: Signal<number>;
   currentCarbsIntake: Signal<number>;
@@ -45,11 +51,13 @@ export class FoodTableComponent {
     public dietService: DietService,
     public formBuilder: FormBuilder,
     private _activatedRouter: ActivatedRoute,
+    private _dialog: MatDialog
   ) {
     this.macrosAndFoodListResolverResponse = toSignal<ResolverMacrosAndFoodListResponse|Data>(this._activatedRouter.data);
     this.myProteinsGoal = this.dietService.myProteinsGoal;
     this.myCarbsGoal = this.dietService.myeCarbsGoal;
     this.myFatsGoal = this.dietService.myFatsGoal;
+    this.myCaloriesGoal = this.dietService.myCaloriesGoal;
 
     this.currentProteinIntake = this.dietService.currentProteinIntake;
     this.currentCarbsIntake = this.dietService.currentCarbsIntake;
@@ -59,6 +67,15 @@ export class FoodTableComponent {
 
     this.foodItemsList = this.dietService.myFoodItemsList;
 
+  }
+
+  openVideo() {
+      this._dialog.open(YoutubeModalComponent, {
+        data: {
+          videoId: environment.youtube_table_video_id
+        },
+        enterAnimationDuration: 200,
+      });
   }
 
   updateTable(e: any) {
