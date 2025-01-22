@@ -84,6 +84,14 @@
     <p style="max-width: 700px; font-weight: 300; font-size: 14px;">El documento de tu dieta se podrá generar una vez logres suplir tus 3 macro objetivos, guíate de los colores en “tu dieta actual”, lo ideal es que los tres estén verdes, ¡ánimo!</p>
   </div>
 
+  <!-- @if(dietService.proteinColor() == "green"
+  && dietService.carbsColor() == "green"
+  && dietService.fatsColor() == "green") { -->
+    <!-- <div class="success-message"> -->
+      <button mat-stroked-button color="primary" (click)="printPdf()">Imprimir mis datos a PDF</button>
+    <!-- </div> -->
+  <!-- } -->
+
   @if (foodDataSignal() != undefined) {
     <h2>Alimentos que puedes agregar a tu dieta:</h2>
     <app-shared-table
@@ -103,15 +111,6 @@
       @for (foodItem of foodItemsList(); track foodItem.id) {
         <app-food-item [foodItem]="foodItem"></app-food-item>
       }
-    </div>
-  }
-
-  @if(dietService.proteinColor() == "green"
-  && dietService.carbsColor() == "green"
-  && dietService.fatsColor() == "green") {
-    <div class="success-message">
-      <p>¡Felicidades! Has alcanzado tus objetivos de macronutrientes.</p>
-      <button mat-stroked-button color="primary" (click)="printPdf()">Imprimir mis datos a PDF</button>
     </div>
   }
 </div>

@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from '../../../environments/environments';
 import { YoutubeModalComponent } from '../youtube-modal/youtube-modal.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-food-table',
@@ -91,7 +92,10 @@ export class FoodTableComponent {
   }
 
   printPdf() {
-    this.dietService.printToPdf()
+    if(this.dietService.proteinColor() === "green" &&
+    this.dietService.carbsColor() === "green" &&
+    this.dietService.fatsColor() === "green") {
+      this.dietService.printToPdf()
       .subscribe((response: ToPdfResponse) => {
         if (response.status === 'success' && response.data.url) {
           window.open(response.data.url, '_blank');
@@ -99,6 +103,13 @@ export class FoodTableComponent {
           console.error('Error generating PDF:', response.message);
         }
       })
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'No puedes generar el PDF si no has completado tus metas de macronutrientes',
+        icon: 'error',
+      })
+    }
   }
 
 }
